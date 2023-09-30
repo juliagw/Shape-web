@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shape Calculator</title>
+    <style>
+        body {
+            background: linear-gradient(to bottom right, #ff9966, #ff5e62);
+            font-family: Arial, sans-serif;
+            color: #fff;
+            text-align: center;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Shape Calculator</h1>
+        <select id="shapeSelector">
+            <option value="circle">Circle</option>
+            <option value="rectangle">Rectangle</option>
+            <option value="cube">Cube</option>
+        </select>
+        <div id="inputs">
+            <!-- Input fields for different shapes will be added here using JavaScript -->
+        </div>
+        <button onclick="calculate()">Calculate</button>
+    </div>
+
+    <div id="result" style="display: none;">
+        <h2>Result:</h2>
+        <p id="output"></p>
+        <button onclick="reset()">New Input</button>
+    </div>
+
+    <script>
+        function calculate() {
+            const shapeSelector = document.getElementById('shapeSelector');
+            const selectedShape = shapeSelector.value;
+            const resultElement = document.getElementById('result');
+            const outputElement = document.getElementById('output');
+
+            let resultText = '';
+
+            if (selectedShape === 'circle') {
+                const radius = parseFloat(document.getElementById('radius').value);
+                const area = Math.PI * Math.pow(radius, 2);
+                resultText = `Area of the circle is: ${area.toFixed(2)}`;
+            } else if (selectedShape === 'rectangle') {
+                const length = parseFloat(document.getElementById('length').value);
+                const width = parseFloat(document.getElementById('width').value);
+                const area = length * width;
+                resultText = `Area of the rectangle is: ${area.toFixed(2)}`;
+            } else if (selectedShape === 'cube') {
+                const side = parseFloat(document.getElementById('side').value);
+                const volume = Math.pow(side, 3);
+                resultText = `Volume of the cube is: ${volume.toFixed(2)}`;
+            }
+
+            resultElement.style.display = 'block';
+            outputElement.innerText = resultText;
+        }
+
+        function reset() {
+            const resultElement = document.getElementById('result');
+            const shapeSelector = document.getElementById('shapeSelector');
+
+            // Reset the result and hide it
+            resultElement.style.display = 'none';
+
+            // Reset the shape selector to its default value
+            shapeSelector.value = 'circle';
+
+            // Clear input fields
+            const inputs = document.getElementById('inputs');
+            inputs.innerHTML = '';
+
+            // Hide the "New Input" button
+            document.getElementById('newInputButton').style.display = 'none';
+        }
+
+        function addInputFields() {
+            const selectedShape = document.getElementById('shapeSelector').value;
+            const inputs = document.getElementById('inputs');
+            inputs.innerHTML = '';
+
+            if (selectedShape === 'circle') {
+                inputs.innerHTML = `
+                    Radius: <input type="number" id="radius" step="0.01" required><br>
+                `;
+            } else if (selectedShape === 'rectangle') {
+                inputs.innerHTML = `
+                    Length: <input type="number" id="length" step="0.01" required><br>
+                    Width: <input type="number" id="width" step="0.01" required><br>
+                `;
+            } else if (selectedShape === 'cube') {
+                inputs.innerHTML = `
+                    Side Length: <input type="number" id="side" step="0.01" required><br>
+                `;
+            }
+
+            // Show the "New Input" button
+            document.getElementById('newInputButton').style.display = 'block';
+        }
+
+        // Initialize input fields when the page loads
+        addInputFields();
+    </script>
+</body>
+</html>
